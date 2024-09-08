@@ -21,11 +21,6 @@ run phpmyadmin which connected to frontend-network
 docker run --name phpmyadmin --network db-network -d -e PMA_HOST=mysql-database -p 8080:80 phpmyadmin
 ```
 
-connect phpmyadmin container to database-network
-```bash
-docker network connect db-network phpmyadmin
-```
-
 verify your setup.
 Only phpmyadmin can access this database.
 
