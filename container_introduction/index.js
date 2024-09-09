@@ -4,7 +4,7 @@ const app = express()
 const port = 3000
 
 app.get('/', (req, res) => {
-  res.send(`this is v2 app`)
+  res.send(`hi ${process.env.NAME}, i hope you know how env on docker work.`)
 })
 
 app.listen(port, () => {
