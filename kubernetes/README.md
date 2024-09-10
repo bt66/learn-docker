@@ -1,3 +1,4 @@
+#KUBERNETES INTRODUCTION
 if single host doesn't enough for your app, you can try to deploy apps on top of container orchestrator.
 
 one of container orchestrator is kubernetes.
@@ -56,7 +57,7 @@ kubectl delete svc nginx-demo
 kubectl delete pod nginx
 ```
 
-### POD MANAGEMENT
+# WORKLOAD MANAGEMENT
 ## DEPLOYMENT
 https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
 deployment can manage pod
@@ -104,7 +105,7 @@ get replicaset
 kubectl get rs
 ```
 
-# what will happen if we do some mistake and cause error?
+### what will happen if we do some mistake and cause error?
 
 ```bash
 kubectl set image deployment/nginx-deployment nginx=nginx:1.161
@@ -189,6 +190,12 @@ spec:
         image: nginx:1.14.2
         ports:
         - containerPort: 80
+        resources:
+          limits:
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 200Mi
 ---
 apiVersion: v1
 kind: Service
@@ -203,3 +210,59 @@ spec:
     port: 80
     targetPort: 80
 ```
+
+cleanup cluster
+```bash
+kubectl delete all --all
+```
+
+# Daemonset
+this resource can be use when you need to deploy app across available node
+```bash
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: nginx-DaemonSet
+  labels:
+    app: nginx
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 200Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app: nginx
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 80
+
+```
+# Statefullset
+## How about statefull apps on kubernetes?
+where we can store data ?
+
+we can use statefullset workload management
+
