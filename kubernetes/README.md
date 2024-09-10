@@ -16,11 +16,22 @@ get pod logs
 ```bash
 kubectl get logs -f 
 ```
+https://kubernetes.io/docs/reference/kubectl/generated/kubectl_logs/
+
 get pod information
 ```bash
 kubectl describe pod <your-pod-name>
 ```
-https://kubernetes.io/docs/reference/kubectl/generated/kubectl_logs/
+
+exec pod 
+```bash
+kubectl exec -it <pod_name> -- /bin/bash
+```
+we will see deprecated message but its still work
+in newer version we need to add -- 
+```bash
+kubectl exec -it nginx-deployment-77d8468669-6tttl -- /bin/bash
+```
 
 expose a pod
 ```bash
@@ -128,4 +139,60 @@ kubectl scale deployment/nginx-deployment --replicas=4
 scale down
 ```bash
 kubectl scale deployment/nginx-deployment --replicas=1
+```
+
+how to add service to deployment?
+you need to match selector behind service & deployment
+```bash
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app: nginx
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 80
+
+```
+
+also we can merge many resource in 1 file, 
+```bash
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app: nginx
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 80
 ```
