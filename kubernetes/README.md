@@ -37,7 +37,14 @@ expose a pod
 ```bash
 kubectl kubectl create svc clusterip nginx-demo --tcp=80:80
 ```
-
+the default svc is cluster ip but we can also use another svc type like nodeport or loadbalancer.
+```bash
+kubectl create svc nodeport nginx-demo --tcp=80:80
+```
+we can also spesify port which need to use
+```bash
+kubectl create svc nodeport nginx-demo --tcp=80:80 --node-port=30080
+```
 verify svc 
 ```bash
 kubectl port-forward service/nginx-demo 8088:80
@@ -159,7 +166,7 @@ spec:
 
 ```
 
-also we can merge many resource in 1 file, 
+we can also merge many resource in 1 file, 
 ```bash
 apiVersion: apps/v1
 kind: Deployment
