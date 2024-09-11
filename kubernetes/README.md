@@ -15,7 +15,7 @@ kuebctl get pod
 
 get pod logs
 ```bash
-kubectl get logs -f 
+kubectl logs -f 
 ```
 https://kubernetes.io/docs/reference/kubectl/generated/kubectl_logs/
 
