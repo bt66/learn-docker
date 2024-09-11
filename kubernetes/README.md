@@ -313,7 +313,7 @@ spec:
   - metadata:
       name: mysql-persistent-storage
     spec:
-      accessModes: [ "ReadWriteOnce" ]
+      accessModes: [ "ReadWriteOnce" ] # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes
       resources:
         requests:
           storage: 1Gi
