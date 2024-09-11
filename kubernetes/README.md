@@ -41,6 +41,7 @@ kubectl kubectl create svc clusterip nginx-demo --tcp=80:80
 the default svc is cluster ip but we can also use another svc type like nodeport or loadbalancer.
 ```bash
 kubectl create svc nodeport nginx-demo --tcp=80:80
+kubectl expose deployment nginx-demo --type=NodePort --port=80 --target-port=80 --name=nginx-service --selector=app=nginx-demo
 ```
 we can also spesify port which need to use
 ```bash
